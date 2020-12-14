@@ -1,0 +1,18 @@
+{
+  "name": "role1",
+  "description": "",
+  "json_class": "Chef::Role",
+  "chef_type": "role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "run_list": [
+    "recipe[logstash::test]"
+  ],
+  "env_run_lists": {
+
+  }
+}
