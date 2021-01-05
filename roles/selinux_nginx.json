@@ -11,7 +11,6 @@
   },
   "run_list": [
     "recipe[selinux::disabled]",
-    "recipe[firewall::disable_firewall]",
     "recipe[firewalld::disable]",
     "recipe[nginx::custom_nginx]"
   ],
