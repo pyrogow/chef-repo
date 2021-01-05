@@ -78,3 +78,11 @@ firewall_rule 'ipv6_icmp' do
   command :allow
   only_if { node['firewall']['ipv6_enabled'] && node['firewall']['allow_established'] && iptables_firewall }
 end
+
+# open multiple ports for http/https, note that the protocol
+# attribute is required when using ports
+firewall_rule 'http/https' do
+  protocol :tcp
+  port     [80, 443]
+  command   :allow
+end

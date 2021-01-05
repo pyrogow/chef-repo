@@ -1,6 +1,6 @@
 {
-  "name": "role1",
-  "description": "",
+  "name": "selinux_nginx",
+  "description": "custom role for docker-chef-app",
   "json_class": "Chef::Role",
   "chef_type": "role",
   "default_attributes": {
@@ -10,7 +10,9 @@
 
   },
   "run_list": [
-    "recipe[logstash::agent]"
+    "recipe[selinux::httpd_true]",
+    "recipe[firewall::default]",
+    "recipe[nginx::custom_nginx]"
   ],
   "env_run_lists": {
 
