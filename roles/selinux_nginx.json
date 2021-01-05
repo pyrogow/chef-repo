@@ -10,7 +10,7 @@
 
   },
   "run_list": [
-    "recipe[selinux::httpd_true]",
+    "recipe[selinux::disabled]",
     "recipe[firewall::default]",
     "recipe[nginx::custom_nginx]"
   ],
