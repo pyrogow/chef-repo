@@ -11,8 +11,7 @@
   },
   "run_list": [
     "recipe[selinux::permissive]",
-    "recipe[firewalld::disable]",
-    "recipe[firewall::default]",
+    "recipe[firewalld::enable]",
     "recipe[nginx::custom_nginx]"
   ],
   "env_run_lists": {
