@@ -13,7 +13,7 @@ end
 firewalld_rich_rule "ssh_add" do
   zone 'public'
   family 'ipv4'
-  source_address '*'
+  source_address '0.0.0.0/0'
   service_name 'ssh'
   log_prefix 'ssh'
   log_level 'info'
