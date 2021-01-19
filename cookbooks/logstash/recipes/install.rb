@@ -10,4 +10,4 @@
 #
 #
 
-install logstash binaries
+# install logstash binaries

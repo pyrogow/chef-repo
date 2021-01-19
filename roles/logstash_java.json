@@ -1,5 +1,5 @@
 {
-  "name": "role1",
+  "name": "logstash_java",
   "description": "",
   "json_class": "Chef::Role",
   "chef_type": "role",
@@ -10,7 +10,9 @@
 
   },
   "run_list": [
+    "recipe[java::openjdk]",
     "recipe[logstash::server]"
+    
   ],
   "env_run_lists": {
 

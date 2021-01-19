@@ -14,8 +14,6 @@
 
 name = 'server'
 
-openjdk_install '11'
-
 logstash_instance name do
   action :create
 end
@@ -42,4 +40,3 @@ end
 logstash_curator 'server' do
   action [:create]
 end
-

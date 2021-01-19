@@ -7,7 +7,7 @@
 # Copyright 2014, John E. Vincent
 
 require 'chef/mixin/shell_out'
-#require 'chef/mixin/language'
+# require 'chef/mixin/language'
 include Chef::Mixin::ShellOut
 
 def load_current_resource
