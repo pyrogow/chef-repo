@@ -11,7 +11,7 @@
   },
   "run_list": [
     "recipe[java::openjdk]",
-    "recipe[logstash::server]"
+    "recipe[chef-logstash::default]"
     
   ],
   "env_run_lists": {
