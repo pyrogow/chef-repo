@@ -1,1 +1,1 @@
-cookbook "chef-logstash", "~> 0.1.1", git: "https://github.com/wearethefoos/chef-logstash.git"
+cookbook "chef-logstash", git: "https://github.com/wearethefoos/chef-logstash.git", rel: "chef-logstash"
