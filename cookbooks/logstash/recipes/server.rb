@@ -1,42 +1,17 @@
-# Encoding: utf-8
 #
-# Author:: John E. Vincent
-# Author:: Bryan W. Berry (<bryan.berry@gmail.com>)
-# Copyright 2012, John E. Vincent
-# Copyright 2012, Bryan W. Berry
-# License: Apache 2.0
-# Cookbook Name:: logstash
+# Cookbook Name:: chef-logstash
 # Recipe:: server
 #
+# Copyright (C) 2014 Wouter de Vos
+# 
+# License: MIT
 #
 
-# install logstash 'server'
-
-name = 'server'
-
-logstash_instance name do
-  action :create
-end
-
-logstash_service name do
-  action [:enable]
-end
-
-logstash_config name do
-  action [:create]
-  notifies :restart, "logstash_service[#{name}]"
-end
-
-# logstash_plugins 'contrib' do
-#   instance name
-#   name 'logstash-output-influxdb'
-#   action [:create]
-# end
-
-logstash_pattern name do
-  action [:create]
-end
-
-logstash_curator 'server' do
-  action [:create]
+template "/etc/logstash/conf.d/server.conf" do
+  source "logstash.conf.erb"
+  owner "logstash"
+  group "logstash"
+  mode "0644"
+  variables( :config => node[:logstash][:server] )
+  notifies :restart, "service[logstash]"
 end

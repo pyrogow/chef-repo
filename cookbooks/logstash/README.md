@@ -1,169 +1,165 @@
-# <a name="title"></a> chef-logstash [![Build Status](https://secure.travis-ci.org/lusis/chef-logstash.png?branch=master)](http://travis-ci.org/lusis/chef-logstash)
+# chef-logstash cookbook
 
-Description
-===========
+Basic Logstash cookbook for Chef that installs Logstash from the official [package repositories](http://logstash.net/docs/1.4.1/repositories).
 
-This is the semi-official 'all-in-one' Logstash cookbook.
+# Requirements
 
-This cookbook is primarily a library cookbook.
+Tested on Ubuntu/Debian but should work on other platforms as well.
 
-While you can still use the `agent` and `server` recipes, they are not recommended as they are very limited in what they do.
+# Usage
 
-If you are using logstash < 1.2 you might want to use the 0.6.x branch.
-If you are using logstash < 1.4 you might want to use the 0.7.x branch.
+Just include the default recipe `logstash::default`.
 
-Requirements
-============
+## Server
 
-All of the requirements are explicitly defined in the recipes. Every
-effort has been made to utilize Community Cookbooks.
+Put the following in your logstash server attributes:
 
-However if you wish to use an external ElasticSearch cluster, you will
-need to install that yourself and change the relevant attributes for
-discovery. The same applies to integration with Graphite.
+```json
+{
+    "logstash": {
+        "version": "1.4",
 
-This cookbook has been tested together with the following cookbooks,
-see the Berksfile for more details
+        "server": {
+            "enabled": true,
+            "inputs": [
+                {
+                    "rabbitmq": {
+                        "exchange": "rawlogs",
+                        "user": "username",
+                        "password": "verysecret",
+                        "host": "rabbitmq.example.com",
+                        "type": "all"
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "elasticsearch": {
+                        "host": "elasticsearch.example.com",
+                        "cluster": "logstash"
+                    }
+                }
+            ]
+        },
 
-* [Heavywater Graphite Cookbook](https://github.com/hw-cookbooks/graphite)   - This is the one I use
-* [Karmi's ElasticSearch Cookbook](https://github.com/elasticsearch/cookbook-elasticsearch)
-* [@lusis Kibana cookbook](https://github.com/lusis/chef-kibana)
-* [Community Beaver cookbook](https://supermarket.getchef.com/cookbooks/beaver)
-* [elkstack community cookbook](https://supermarket.getchef.com/cookbooks/elkstack)
+        "agent": {
+            "inputs": [
+                {
+                    "file": {
+                        "path": ["/var/log/*.log"],
+                        "exclude": ["*.gz"],
+                        "type": "syslog"
+                    }
+                }
+            ],
 
-Attributes
-==========
+            "outputs": [
+                {
+                    "rabbitmq": {
+                        "host": "rabbitmq.example.com",
+                        "port": "5672",
+                        "user": "username",
+                        "password": "verysecret",
+                        "exchange": "logstash",
+                        "exchange_type": "fanout"
+                    }
+                }
+            ]
+        }
+    }
+}
+
+```
+
+## Agent
+
+And put this in your agents' attributes:
+
+
+```json
+{
+    "logstash": {
+        "version": "1.4",
+
+        "agent": {
+            "inputs": [
+                {
+                    file {
+                        "path": ["/var/log/*.log"],
+                        "exclude": ["*.gz"],
+                        "type": "syslog"
+                    }
+                }
+            ],
+
+            "outputs": [
+                {
+                    "rabbitmq": {
+                        "host": "rabbitmq.example.com",
+                        "port": "5672",
+                        "user": "username",
+                        "password": "verysecret",
+                        "exchange": "logstash",
+                        "exchange_type": "fanout"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+# Attributes
 
 ## Default
 
-see [attributes/default.rb](attributes/default.rb)
-
-## Beaver (alternative to Logstash Agent)
-
-no longer used.  see [Community Beaver cookbook](https://supermarket.getchef.com/cookbooks/beaver)
-
-## Source
-
-no longer supports installing from source.
-
-Lightweight Resource Providers
-===================
-
-These now do all the heavy lifting.
-
-## logstash_instance
-
-This will install a logstash instance.   It will take defaults from attributes for most attributes.
-
-see [resources/instance.rb](resources/instance.rb)
-
-## logstash_service
-
-This will create system init scripts for managing logstash instance.   It will take defaults from attributes for most attributes.
-
-see [resources/service.rb](resources/service.rb)
-
-_experimental support for pleaserun has been added.   Only `native` for `Ubuntu 12.04` has been thoroughly tested._
-
-## logstash_config
-
-This will create logstash config files.   It will take defaults from attributes for most attributes.
-
-see [resources/config.rb](resources/config.rb)
-
-## logstash_pattern
-
-This will install custom grok patterns for logstash.   It will take defaults from attributes for most attributes:
-
-see [resources/pattern.rb](resources/pattern.rb)
-
-## logstash_plugins
-
-This will install the logstash community plugins:
-
-see [resources/plugins.rb](resources/plugins.rb)
-
-## logstash_curator
-
-This will install the [ElasticSearch Curator](https://github.com/elasticsearch/curator) and setup a cron job. This replaces the deprecated `index_cleaner`:
-
-see [resources/curator.rb](resources/curator.rb)
-
-## attribute precidence in logstash LWRPs
-
-We've done our best to make this intuitive and easy to use.
-
-1. the value directly in the resource block.
-2. the value from the hash node['logstash']['instance'][name]
-3. the value from the hash node['logstash']['instance_default']
-
-You should be able to override settings in any of the above places.  It is recommended for readability that you set non-default options in the LWRP resource block.  But do whichever makes sense to you.
-
-Searching
-======
-
-There is a search helper library `libraries/search.rb` which will help you search for values such as `elasticsearch_ip`.  see the `server` recipe for an example of its usage.
-
-
-Testing
-=======
-
-## Rubocop, FoodCritic, Rspec, Test-Kitchen
-
-```
-$ bundle exec rake
+```ruby
+node[:logstash][:version] = "1.4"            # The version to install.
 ```
 
-## Test Kitchen
+## Agent
 
+```ruby
+node[:logstash][:agent][:enabled] = true    # Enable agent.
+node[:logstash][:agent][:inputs]  = []      # Inputs configuration, see http://logstash.net/docs/1.4.1/
+node[:logstash][:agent][:outputs] = []      # Outputs configuration, see http://logstash.net/docs/1.4.1/
 ```
-$ kitchen converge server_ubuntu
+
+## Server
+
+```ruby
+node[:logstash][:server][:enabled] = false   # Enable server (default: false, agent only).
+node[:logstash][:server][:inputs]  = []      # Inputs configuration, see http://logstash.net/docs/1.4.1/
+node[:logstash][:server][:outputs] = []      # Outputs configuration, see http://logstash.net/docs/1.4.1/
 ```
 
-Contributing
-========
+# Recipes
 
-Any and all contributions are welcome.   We do ask that you test your contributions with the testing framework before you send a PR.  All contributions should be made against the master branch.
+## Default
 
-Please update tests and changelist with your contributions.
+Meta recipe to install the packages and configure the server and/or agent.
 
-Documentation contributions will earn you lots of hugs and kisses.
+## Apt
 
-Usage
-=====
+Installs Logstash from the Debian packages.
 
-A proper readme is forthcoming but in the interim....
+## Yumrepo
 
-These two recipes show how to install and configure logstash instances via the provided `LWRPs`
+Installs Logstash from the Yum repo packages.
 
-* [recipes/server.rb](recipes/server.rb) - This would be your indexer node
-* [recipes/agent.rb](recipes/agent.rb) - This would be a local host's agent for collection
+## Agent
 
-See the [elkstack community cookbook](https://supermarket.getchef.com/cookbooks/elkstack) for a great example of using the LWRPs provided by this cookbook.
+Configures the agent.
 
-## License and Author
+## Server
 
-- Author:    John E. Vincent
-- Author:    Bryan W. Berry (<bryan.berry@gmail.com>)
-- Author:    Richard Clamp (@richardc)
-- Author:    Juanje Ojeda (@juanje)
-- Author:    @benattar
-- Author:    Paul Czarkowski (@pczarkowski)
-- Copyright: 2012, John E. Vincent
-- Copyright: 2012, Bryan W. Berry
-- Copyright: 2012, Richard Clamp
-- Copyright: 2012, Juanje Ojeda
-- Copyright: 2012, @benattar
-- Copyright: 2014, Paul Czarkowski
+Configures the server.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+# Thanks to
 
-    http://www.apache.org/licenses/LICENSE-2.0
+- https://github.com/lusis/chef-logstash where I borrowed the idea and even some code from.
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+
+# Author
+
+Author:: Wouter de Vos - [Springest](http://www.springest.com) (oss@rein.io)
