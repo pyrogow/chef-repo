@@ -1,0 +1,45 @@
+{
+  "name": "filebeat",
+  "description": "Installs/Configures Elastic Filebeat",
+  "long_description": "",
+  "maintainer": "Virender Khatri",
+  "maintainer_email": "vir.khatri@gmail.com",
+  "license": "Apache-2.0",
+  "platforms": {
+    "windows": ">= 0.0.0",
+    "debian": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "amazon": ">= 0.0.0",
+    "redhat": ">= 0.0.0",
+    "fedora": ">= 0.0.0"
+  },
+  "dependencies": {
+    "homebrew": "~> 4.2",
+    "elastic_repo": ">= 1.2.0",
+    "yum-plugin-versionlock": ">= 0.2.1",
+    "runit": ">= 0.0.0",
+    "windows": ">= 0.0.0"
+  },
+  "providing": {
+
+  },
+  "recipes": {
+
+  },
+  "version": "2.4.0",
+  "source_url": "https://github.com/vkhatri/chef-filebeat",
+  "issues_url": "https://github.com/vkhatri/chef-filebeat/issues",
+  "privacy": false,
+  "chef_versions": [
+    [
+      ">= 12.14"
+    ]
+  ],
+  "ohai_versions": [
+
+  ],
+  "gems": [
+
+  ]
+}
