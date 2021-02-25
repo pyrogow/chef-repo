@@ -1,1 +1,1 @@
-default[:logstash][:version] = "2.2"
+default[:logstash][:version] = "7.11.1"
