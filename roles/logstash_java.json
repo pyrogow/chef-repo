@@ -11,7 +11,8 @@
   },
   "run_list": [
     "recipe[java::openjdk]",
-    "recipe[logstash::default]"
+    "recipe[logstash::default]",
+    "recipe[elasticsearch::default]"
     
   ],
   "env_run_lists": {
