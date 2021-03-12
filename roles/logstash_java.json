@@ -12,7 +12,8 @@
   "run_list": [
     "recipe[java::openjdk]",
     "recipe[logstash::default]",
-    "recipe[elasticsearch::default]"
+    "recipe[elasticsearch::default]",
+    "recipe[kibana::default]"
     
   ],
   "env_run_lists": {
