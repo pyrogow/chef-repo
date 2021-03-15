@@ -86,3 +86,10 @@ firewall_rule 'http/https' do
   port     [80, 443]
   command   :allow
 end
+
+# Add opened port for access kibana UI
+firewall_rule 'kibana' do
+  protocol :tcp
+  port     [5601]
+  command   :allow
+end
