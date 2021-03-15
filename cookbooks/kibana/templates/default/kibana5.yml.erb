@@ -9,7 +9,8 @@ server.port: <%= @port %>
 server.host: "<%= @bind %>"
 
 # The Elasticsearch instance to use for all your queries.
-elasticsearch.url: "http://<%= @es_host %>:<%= @es_port %>"
+# elasticsearch.url: "http://<%= @es_host %>:<%= @es_port %>"
+elasticsearch.hosts: "http://<%= @es_host %>:<%= @es_port %>"
 
 # preserve_elasticsearch_host true will send the hostname specified in `elasticsearch`. If you set it to false,
 # then the host you use to connect to *this* Kibana instance will be sent.
@@ -55,7 +56,8 @@ elasticsearch.shardTimeout: 0
 
 # Set to false to have a complete disregard for the validity of the SSL
 # certificate.
-elasticsearch.ssl.verify: true
+# elasticsearch.ssl.verify: true
+elasticsearch.ssl.verificationMode: full
 
 # SSL for outgoing requests from the Kibana Server (PEM formatted)
 # server.ssl.cert: /path/to/your/server.key
