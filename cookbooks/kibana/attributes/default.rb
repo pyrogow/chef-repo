@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 #<> Kibana major version
-default['kibana']['version'] = 5
+default['kibana']['version'] = 7
 
 #<> Kibana3 exact version
 default['kibana']['kibana3_version'] = '3.1.2'
@@ -17,6 +17,10 @@ default['kibana']['kibana4_url'] = "https://download.elastic.co/kibana/kibana/ki
 default['kibana']['kibana5_version'] = '5.6.4'
 default['kibana']['kibana5_checksum'] = '253dea10f0fa535c6c984981c4012559b43907d4bc6f21668b43295428cef21d'
 default['kibana']['kibana5_url'] = "https://artifacts.elastic.co/downloads/kibana/kibana-#{node['kibana']['kibana5_version']}-linux-x86_64.tar.gz"
+
+#<> Kibana7 exact version
+default['kibana']['kibana7_version'] = '7.4.2'
+default['kibana']['kibana7_url'] = "https://artifacts.elastic.co/downloads/kibana/kibana-7.4.2-linux-x86_64.tar.gz"
 
 #<> The base directory of kibana.
 default['kibana']['base_dir'] = '/opt/kibana'
@@ -34,7 +38,7 @@ default['kibana']['repository_key'] = 'https://packages.elastic.co/GPG-KEY-elast
 default['kibana']['git']['url'] = 'https://github.com/elastic/kibana.git'
 
 #<> The git reference in the Kibana repository.
-default['kibana']['git']['reference'] = "v#{node['kibana']['kibana5_version']}"
+default['kibana']['git']['reference'] = "v#{node['kibana']['kibana7_version']}"
 
 #<> The version of Ruby and Gems to use for Kibana.
 case node['platform_family']
