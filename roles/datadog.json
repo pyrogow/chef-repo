@@ -1,0 +1,18 @@
+{
+    "name": "datadog",
+    "description": "custom role for datadog agent",
+    "json_class": "Chef::Role",
+    "chef_type": "role",
+    "default_attributes": {
+        "datadog": {
+            "agent_major_version": "7",
+            "agent_version": "7.25.1"
+        }
+    },
+    "override_attributes": {},
+    "run_list": [
+        "recipe[datadog::elasticsearch]",
+        "recipe[datadog::dd-handler]"
+    ],
+    "env_run_lists": {}
+}
