@@ -3,18 +3,12 @@
   "description": "custom role for docker-chef-app",
   "json_class": "Chef::Role",
   "chef_type": "role",
-  "default_attributes": {
-
-  },
-  "override_attributes": {
-
-  },
+  "default_attributes": {},
+  "override_attributes": {},
   "run_list": [
     "recipe[selinux::enforcing]",
     "recipe[firewall::default]",
     "recipe[nginx::custom_nginx]"
   ],
-  "env_run_lists": {
-
-  }
+  "env_run_lists": {}
 }
