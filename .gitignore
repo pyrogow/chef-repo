@@ -1,2 +1,4 @@
 .chef
 .vagrant
+/cookbooks/datadog/attributes/datadog.rb
+/data_bags/
